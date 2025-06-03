@@ -26,4 +26,4 @@
 * 访问 sc-consumer 测试验证
 * 浏览器访问 [http://localhost:9999/diff/2](http://localhost:9999/diff/2)
 
-[GitHub](https://github.com/infowangxin) [issues](https://github.com/infowangxin/sc/issues)
+[GitHub](https://github.com/tobeflyboy) [issues](https://github.com/tobeflyboy/sc/issues)
