@@ -1,0 +1,56 @@
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+    basedir: .
+    accesslog:
+      buffered: true # 设置是否缓存日志，默认值为true，当设置为false时，每个request都会立刻产生访问日志
+      directory: logs # 指定access文件的路径
+      enabled: true # 取值true、false，需要accesslog时设置为true
+      file-date-format: .yyyy-MM-dd # 是设置滚动生成文件的格式，如yyyy-MM-dd是每天滚动生成新日志文件，yyyy-MM-dd.HH是每小时滚动生成新的日志文件。
+      # Access log内置了两个日志格式模板，可以直接指定pattern为模板名称
+      # common - %h %l %u %t "%r" %s %b，依次为：远程主机名称，远程用户名，被认证的远程用户，日期和时间，请求的第一行，response code，发送的字节数
+      # combined - %h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"，依次为：远程主机名称，远程用户名，被认证的远程用户，日期和时间，请求的第一行，response code，发送的字节数，request header的Referer信息，request header的User-Agent信息。
+      pattern: combined # 设置日志的格式，指定pattern为模板名称
+      prefix: sc-config-server-access # 日志文件的文件名后缀
+      rename-on-rotate: false # 是否延迟在文件名中包含日期戳，直到旋转时间。
+      request-attributes-enabled: false # 设置请求的IP地址，主机名，协议和端口的请求属性。
+      suffix: .log # 日志文件的文件名后缀
+      max-days: 7  # 设定保留7天的日志文件，已验证，此参数可真实有效删除access日志文件。
+      rotate: true # 是否启用访问日志轮换。
+spring:
+  application:
+    name: sc-config-server
+  profiles:
+    active: native           # 激活的 Spring 配置文件或 Profile，这里使用 native 模式
+    # native 模式表示配置中心直接从本地文件系统或 classpath 中读取配置，而不是从 Git 或远程仓库
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo
+          # 配置文件搜索路径
+          # classpath:/config-repo 表示在项目资源目录下的 config-repo 文件夹中查找配置文件
+          # Spring Cloud Config Server 会根据客户端请求的应用名和 profile 自动加载对应的配置文件，例如：
+          #   - sc-server-a.properties
+          #   - sc-server-a-dev.properties
+          #   - sc-server-b.yml
+          #   - sc-server-b-prod.yml
+          # 也可以写成 file:/路径 或其他支持的文件协议路径，例如：
+          #   - file:/opt/config-repo
+          #   - file:C:/config-repo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+# Eureka Client 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # 配置中心注册到 Eureka Server 的地址
+    register-with-eureka: true   # 配置中心也作为服务注册到 Eureka
+    fetch-registry: true         # 配置中心可以获取注册表（通常为了监控和其他服务发现）

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <property name="LOG_DIR" value="${LOG_PATH:-./logs}"/>
+    <property name="MAX_HISTORY" value="7"/>
+    <property name="PATTERN_SCRIPT" value="%date{yyyy/MM/dd HH:mm:ss.SSS} [%-5level] [%thread] [%c{36}.%M\(\) : %line] - %msg%n"/>
+    <!-- LOGSTASH_ADDRESS: Logstash的地址和端口，用于日志收集，kibana地址：http://10.28.21.213:5601 -->
+    <property name="LOGSTASH_ADDRESS" value="10.28.21.213:4567"/>
+    <!-- 根据ENV属性设置应用名称 -->
+    <property name="APP" value="sc-server-b"/>
+    <!-- 环境 -->
+    <property name="ENV" value="${spring.profiles.active:-dev}"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN_SCRIPT}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="CATALINA_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${APP}-catalina.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 保留近x天日志 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN_SCRIPT}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- Logstash日志输出配置，用于将日志发送到Logstash -->
+    <!--<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+    <!--    <destination>${LOGSTASH_ADDRESS}</destination>-->
+    <!--    <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">-->
+    <!--        <customFields>-->
+    <!--            {-->
+    <!--            "app":"${APP}",-->
+    <!--            "env":"${ENV:-test}",-->
+    <!--            "hostname":"${HOSTNAME}"-->
+    <!--            }-->
+    <!--        </customFields>-->
+    <!--    </encoder>-->
+    <!--    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+    <!--        <level>INFO</level>-->
+    <!--    </filter>-->
+    <!--</appender>-->
+
+    <!-- set print log level  -->
+    <logger name="com.nutcracker" level="DEBUG"/>
+
+    <!-- print security -->
+    <logger name="org.springframework.security" level="DEBUG"/>
+
+    <!-- print transaction -->
+    <logger name="org.mybatis.spring.SqlSessionUtils" level="DEBUG"/>
+    <logger name="org.springframework.transaction.interceptor.TransactionInterceptor" level="TRACE"/>
+    <logger name="org.springframework.jdbc.support.JdbcTransactionManager" level="DEBUG"/>
+
+    <!-- print request url & parameter -->
+    <logger name="org.springframework.web.method.support.InvocableHandlerMethod" level="DEBUG"/>
+    <logger name="org.springframework.boot.SpringApplication" level="TRACE"/>
+
+    <!-- print cache -->
+    <logger name="org.springframework.cache" level="TRACE"/>
+    <logger name="org.springframework.data.redis" level="DEBUG"/>
+
+    <!-- print sql log , but for development debug -->
+    <logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG"/>
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG"/>
+    <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE"/>
+    <logger name="org.apache.ibatis.jdbc.ScriptRunner" level="DEBUG"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+    <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT"/>
+        <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+        <neverBlock>true</neverBlock>
+        <!-- 新增这行为了打印栈堆信息 -->
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC_CATALINA_LOG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CATALINA_LOG"/>
+        <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+        <neverBlock>true</neverBlock>
+        <!-- 新增这行为了打印栈堆信息 -->
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    <!-- 异步Logstash日志输出配置 -->
+    <!--<appender name="ASYNC_LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">-->
+    <!--    <appender-ref ref="LOGSTASH"/>-->
+    <!--    <neverBlock>true</neverBlock>-->
+    <!--    <includeCallerData>true</includeCallerData>-->
+    <!--</appender>-->
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC_STDOUT"/>
+        <appender-ref ref="ASYNC_CATALINA_LOG"/>
+        <!--<appender-ref ref="ASYNC_LOGSTASH"/>-->
+    </root>
+</configuration>

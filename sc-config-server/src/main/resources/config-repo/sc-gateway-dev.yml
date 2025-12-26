@@ -1,0 +1,51 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: sc-gateway  # 应用名称
+  jmx:
+    enabled: false # 禁用JMX
+  cloud:
+    gateway.server.webflux:
+      default-filters:
+        - PrefixPath=/ # 前缀路径过滤器 ，为所有请求路径添加 / 前缀（这里相当于保持原路径）
+        - AddResponseHeader=X-Response-Default-Foo, Default-Bar # 在响应头里增加默认字段 X-Response-Default-Foo: Default-Bar，可以用于调试或标识请求来源。
+      discovery:
+        locator:
+          enabled: true  # 启用服务发现路由
+          lower-case-service-id: true  # 服务ID转小写
+#      routes:
+#        - id: sc-server-a  # 路由ID
+#          uri: lb://sc-server-a  # 负载均衡到sc-server-a服务
+#          predicates:
+#            - Path=/sc-server-a/**  # 路径匹配规则
+#          filters:
+#            - StripPrefix=1  # 去除路径前缀
+#        - id: sc-server-b  # 路由ID
+#          uri: lb://sc-server-b  # 负载均衡到sc-server-b服务
+#          predicates:
+#            - Path=/sc-server-b/**  # 路径匹配规则
+#          filters:
+#            - StripPrefix=1  # 去除路径前缀
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Eureka Server 地址
+  instance:
+    prefer-ip-address: true  # 使用IP地址注册
+sc:
+  logging:
+    http:
+      enabled: true
+      maxLength: 2000
+      white-uris:
+        - /actuator/**
+        - /health/**
+        - /swagger/**
+        - /v3/api-docs/**
+        - /internal/**

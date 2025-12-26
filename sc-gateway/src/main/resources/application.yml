@@ -1,39 +1,58 @@
-server:
-  port: 8000
-  servlet:
-    context-path: /
-  shutdown: graceful   # 优雅停服务，在容器关闭时，web服务器将不再接收新请求，并将等待活动请求完成的缓冲期。从springboot2.3.0引入的新特性
 spring:
   application:
     name: sc-gateway
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: false
-          lower-case-service-id: true
-      routes:
-        - id: sc-provider
-          uri: la://nutcracker:8848
-          predicates:
-            - Path=/aplus-support-web/**
-            - Method=POST,GET
-          filters:
-            - AddResponseHeader=From-Host,127.0.0.1:8882
-logging:
-  pattern:
-    console: "[%date{HH:mm:ss.SSS}] [%thread] %-5level %logger %line - %msg%n"
-  level:
-    root: INFO
-    org.nutcracker: DEBUG
-    org.springframework.web: TRACE
-    org.springframework.http: TRACE
-    org.springframework.security: TRACE
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.security.jwt: TRACE
-#    org.springframework.jdbc.core.JdbcTemplate: DEBUG
-#    org.springframework.jdbc.core.StatementCreatorUtils: trace
-#    org.apache.ibatis.jdbc.ScriptRunner: DEBUG
-#    java.sql.Connection: DEBUG
-#    java.sql.Statement: DEBUG
-#    java.sql.PreparedStatement: DEBUG
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888
+
+
+#server:
+#  port: 8080
+#spring:
+#  application:
+#    name: sc-gateway  # 应用名称
+#  cloud:
+#    gateway.server.webflux:
+#      default-filters:
+#        - PrefixPath=/ # 前缀路径过滤器 ，为所有请求路径添加 / 前缀（这里相当于保持原路径）
+#        - AddResponseHeader=X-Response-Default-Foo, Default-Bar # 在响应头里增加默认字段 X-Response-Default-Foo: Default-Bar，可以用于调试或标识请求来源。
+#      discovery:
+#        locator:
+#          enabled: true  # 启用服务发现路由
+#          lower-case-service-id: true  # 服务ID转小写
+#      routes:
+#        - id: sc-server-a  # 路由ID
+#          uri: lb://sc-server-a  # 负载均衡到sc-server-a服务
+#          predicates:
+#            - Path=/sc-server-a/**  # 路径匹配规则
+#          filters:
+#            - StripPrefix=1  # 去除路径前缀
+#        - id: sc-server-b  # 路由ID
+#          uri: lb://sc-server-b  # 负载均衡到sc-server-b服务
+#          predicates:
+#            - Path=/sc-server-b/**  # 路径匹配规则
+#          filters:
+#            - StripPrefix=1  # 去除路径前缀
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"  # 暴露所有监控端点
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/ # Eureka Server 地址
+#  instance:
+#    prefer-ip-address: true  # 使用IP地址注册
+#sc:
+#  logging:
+#    http:
+#      enabled: true
+#      maxLength: 2000
+#      white-uris:
+#        - /actuator/**
+#        - /health/**
+#        - /swagger/**
+#        - /v3/api-docs/**
+#        - /internal/**

@@ -8,16 +8,18 @@
     <artifactId>sc</artifactId>
     <version>2022.4.20-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>https://github.com/infowangxin/sc</url>
 
     <name>${project.artifactId}</name>
     <description>微服务示例工程</description>
 
     <modules>
-        <module>sc-consumer</module>
+        <module>sc-config-server</module>
+        <module>sc-eureka-server</module>
         <module>sc-gateway</module>
-        <module>sc-openfeign</module>
-        <module>sc-provider</module>
+        <module>sc-server-a</module>
+        <module>sc-server-b</module>
+        <module>sc-domain</module>
+        <module>sc-ttl-logging</module>
     </modules>
 
     <licenses>
@@ -31,13 +33,9 @@
 
     <scm>
         <!-- SCM的URL,该URL描述了版本库和如何连接到版本库。欲知详情，请看SCMs提供的URL格式和列表。该连接只读。 -->
-        <connection>
-            scm:git:git@github.com:infowangxin/sc
-        </connection>
+        <connection>scm:git:git@github.com:infowangxin/sc</connection>
         <!-- 给开发者使用的，类似connection元素。即该连接不仅仅只读 -->
-        <developerConnection>
-            scm:git:git@github.com:infowangxin/sc
-        </developerConnection>
+        <developerConnection>scm:git:git@github.com:infowangxin/sc</developerConnection>
         <!-- 指向项目的可浏览SCM库（例如ViewVC或者Fisheye）的URL。 -->
         <url>https://github.com/infowangxin/sc</url>
         <!-- 当前代码的标签，在开发阶段默认为HEAD -->
@@ -68,33 +66,21 @@
     </issueManagement>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.test.skip>true</maven.test.skip>
         <skipTests>true</skipTests>
 
         <!-- springboot & spring-cloud -->
-        <spring-boot.version>2.6.7</spring-boot.version>
-        <!--<spring-boot.version>2.5.13</spring-boot.version>-->
-        <spring-cloud.version>2021.0.2</spring-cloud.version>
-        <!--<spring-cloud.version>2020.0.5</spring-cloud.version>-->
-
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-        <spring-cloud.bootstrap.version>3.1.1</spring-cloud.bootstrap.version>
+        <spring-boot.version>4.0.1</spring-boot.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.nutcracker</groupId>
-                <artifactId>sc-openfeign</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- springboot 依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -103,7 +89,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- spring cloud 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -112,27 +97,16 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- 引入这个依赖解决SpringCloud2021.1整合nacos-bootstrap配置不生效的问题 -->
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-bootstrap</artifactId>
-                <version>${spring-cloud.bootstrap.version}</version>
+                <groupId>com.nutcracker</groupId>
+                <artifactId>sc-domain</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- spring cloud alibaba 依赖 -->
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- okhttp -->
-            <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-okhttp</artifactId>
-                <version>11.8</version>
+                <groupId>com.nutcracker</groupId>
+                <artifactId>sc-ttl-logging</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- apache common support -->
@@ -142,11 +116,11 @@
                 <version>4.4</version>
             </dependency>
 
-            <!-- json -->
+            <!-- TTL -->
             <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>2.0.1</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>2.8.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

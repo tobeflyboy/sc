@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: sc-server-a
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888
+
+
+#server:
+#  port: 8081
+#  tomcat:
+#    uri-encoding: UTF-8
+#    basedir: .
+#    accesslog:
+#      buffered: true # 设置是否缓存日志，默认值为true，当设置为false时，每个request都会立刻产生访问日志
+#      directory: logs # 指定access文件的路径
+#      enabled: true # 取值true、false，需要accesslog时设置为true
+#      file-date-format: .yyyy-MM-dd # 是设置滚动生成文件的格式，如yyyy-MM-dd是每天滚动生成新日志文件，yyyy-MM-dd.HH是每小时滚动生成新的日志文件。
+#      # Access log内置了两个日志格式模板，可以直接指定pattern为模板名称
+#      # common - %h %l %u %t "%r" %s %b，依次为：远程主机名称，远程用户名，被认证的远程用户，日期和时间，请求的第一行，response code，发送的字节数
+#      # combined - %h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"，依次为：远程主机名称，远程用户名，被认证的远程用户，日期和时间，请求的第一行，response code，发送的字节数，request header的Referer信息，request header的User-Agent信息。
+#      pattern: combined # 设置日志的格式，指定pattern为模板名称
+#      prefix: sc-server-a-access # 日志文件的文件名后缀
+#      rename-on-rotate: false # 是否延迟在文件名中包含日期戳，直到旋转时间。
+#      request-attributes-enabled: false # 设置请求的IP地址，主机名，协议和端口的请求属性。
+#      suffix: .log # 日志文件的文件名后缀
+#      max-days: 7  # 设定保留7天的日志文件，已验证，此参数可真实有效删除access日志文件。
+#      rotate: true # 是否启用访问日志轮换。
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  metrics:
+#    tags:
+#      application: ${spring.application.name}
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/ # Eureka Server 地址
+#    register-with-eureka: true   # 服务注册到 Eureka
+#    fetch-registry: true         # 服务可以获取其他服务注册表（可选）
+## 这里可以放业务相关配置
+#custom:
+#  greeting-message: "Hello from Server A"
+#
+## 如果需要调用其他服务，可以配置 Ribbon / LoadBalancer
+#spring:
+#  application:
+#    name: sc-server-a
+#  cloud:
+#    loadbalancer:
+#      retry:
+#        enabled: true
+#sc:
+#  logging:
+#    http:
+#      enabled: true
+#      maxLength: 2000
+#      white-uris:
+#        - /actuator/**
+#        - /health/**
+#        - /swagger/**
+#        - /v3/api-docs/**
+#        - /internal/**
