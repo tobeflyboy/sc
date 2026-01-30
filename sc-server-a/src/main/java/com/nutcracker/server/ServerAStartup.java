@@ -1,6 +1,7 @@
 package com.nutcracker.server;
 
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.nutcracker.server.properties.ServerAProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,7 @@ import java.net.InetAddress;
  */
 @Slf4j
 @EnableDiscoveryClient
+@EnableApolloConfig
 @EnableConfigurationProperties(ServerAProperties.class)
 @SpringBootApplication(scanBasePackages = "com.nutcracker")
 public class ServerAStartup {

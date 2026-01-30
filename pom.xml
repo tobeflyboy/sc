@@ -4,17 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- 父工程只负责聚合和统一版本，不参与编译 -->
     <groupId>com.nutcracker</groupId>
     <artifactId>sc</artifactId>
     <version>2022.4.20-SNAPSHOT</version>
+    <!-- 父工程必须是 pom -->
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
     <description>微服务示例工程</description>
 
+    <!-- 子模块统一继承 -->
     <modules>
         <module>sc-config-server</module>
-        <module>sc-eureka-server</module>
+        <module>sc-discovery-server</module>
         <module>sc-gateway</module>
         <module>sc-server-a</module>
         <module>sc-server-b</module>
@@ -65,6 +68,7 @@
         <url>https://github.com/infowangxin/sc/issues</url>
     </issueManagement>
 
+    <!-- 项目的属性配置，及版本定义 -->
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -79,6 +83,7 @@
         <spring-cloud.version>2025.1.0</spring-cloud.version>
     </properties>
 
+    <!-- 统一 jar 包版本管理 -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -122,7 +127,151 @@
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>2.8.1</version>
             </dependency>
+
+            <!-- apollo client -->
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>3.1.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <!-- 统一插件管理区 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--
+                    Spring Boot 官方 Maven 插件
+                    主要作用：
+                      1. 将普通 jar 重新打包为“可直接运行”的 Spring Boot 可执行 jar
+                      2. 在构建时生成应用构建信息（如版本号、构建时间、Git 信息等）
+                -->
+                <plugin>
+                    <!-- Spring Boot 官方插件坐标 -->
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <!-- 插件版本，通常与 Spring Boot 版本保持一致 -->
+                    <version>${spring-boot.version}</version>
+                    <!-- 插件执行配置：定义在 Maven 构建生命周期的哪个阶段执行哪些目标 -->
+                    <executions>
+                        <!--
+                            repackage 目标：
+                            - 默认绑定在 package 阶段
+                            - 将 Maven 打出来的普通 jar
+                              转换为包含内置 Tomcat/Jetty 的可执行 Spring Boot jar
+                            - 生成的 jar 可以通过：java -jar xxx.jar 直接运行
+                        -->
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                        <!--
+                            build-info 目标：
+                            - 用于生成 META-INF/build-info.properties 文件
+                            - 该文件会被 Spring Boot 自动读取
+                            - 可通过 /actuator/info 或 BuildProperties 在代码中访问
+                            使用场景：
+                              - 查看应用版本
+                              - 查看构建时间
+                              - CI/CD 版本追踪
+                        -->
+                        <execution>
+                            <id>build-info</id>
+                            <!-- 指定在资源处理阶段执行，确保打包前生成构建信息 -->
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                    Maven 部署插件
+                    主要作用：
+                      - 控制是否将构建产物（jar / pom）上传到远程仓库（如 Nexus、私服）
+                    当前配置说明：
+                      - skip = true 表示“完全跳过部署”
+                      - 适用于：
+                          * 本地开发
+                          * 测试环境
+                          * 非正式发布构建
+                      - 可防止误将测试包发布到正式仓库
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.4</version>
+                    <configuration>
+                        <!-- 跳过 deploy 阶段，不上传构建产物到远程仓库 -->
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Maven 编译插件
+                    主要作用：
+                      - 控制 Java 源码的编译行为
+                      - 统一 JDK 版本
+                      - 传递额外的 javac 编译参数
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <!-- 支持 JDK 21 的稳定版本 -->
+                    <version>3.14.1</version>
+                    <configuration>
+                        <!--
+                            使用 -release 统一指定 Java 版本（推荐方式，JDK 9+）
+                            等价于同时设置：
+                              - source：源码语法级别
+                              - target：生成的字节码版本
+                              - bootclasspath：对应 JDK 的标准库 API
+                            优点：
+                              - 防止误用高版本 JDK API
+                              - 避免运行时不兼容问题
+                        -->
+                        <release>${java.version}</release>
+                        <!--
+                            传递给 javac 的额外编译参数
+                            每一个 <arg> 都是一个独立的编译参数
+                        -->
+                        <compilerArgs>
+                            <!--
+                                -parameters 参数：
+                                作用：在编译后的 .class 文件中保留方法参数的真实名称
+                                使用场景：
+                                  - Spring MVC 参数绑定
+                                  - AOP / 反射
+                                  - Jackson / MapStruct 等框架
+                                不加该参数时，参数名会变成 arg0 / arg1
+                            -->
+                            <arg>-parameters</arg>
+                            <!--
+                                -Xlint:-options 参数：
+                                作用：关闭 javac 中与“编译选项”相关的警告
+                                常见警告示例：
+                                  warning: [options] bootstrap class path not set
+                                使用目的：
+                                  - 在使用 -release 后，此类警告无实际意义
+                                  - 保持构建日志干净，避免干扰真正的问题
+                            -->
+                            <arg>-Xlint:-options</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
+    </build>
 
 </project>

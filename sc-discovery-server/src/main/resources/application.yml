@@ -1,9 +1,9 @@
 app:
   # Apollo 中的 AppId
-  id: sc-server-b
+  id: sc-discovery-server
 
 apollo:
-  # Meta Server 地址
+  # apollo dev环境的 meta 地址，即config service 的 URL
   meta: http://10.28.21.213:8881
   bootstrap:
     # 启用启动期加载

@@ -1,33 +1,29 @@
-package com.nutcracker.server;
-
+package com.nutcracker;
 
 import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
-import com.nutcracker.server.properties.ServerBProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.info.BuildProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
 
 /**
- * start application
+ * Eureka Server
  * @author 胡桃夹子
- * @date 2022/4/20 21:06
+ * @since 2025-12-01 17:46
  */
 @Slf4j
 @EnableApolloConfig
-@EnableDiscoveryClient
-@EnableConfigurationProperties(ServerBProperties.class)
-@SpringBootApplication(scanBasePackages = "com.nutcracker")
-public class ServerBStartup {
+@SpringBootApplication
+@EnableEurekaServer
+public class DiscoveryServerApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(ServerBStartup.class, args);
+        ApplicationContext context = SpringApplication.run(DiscoveryServerApplication.class, args);
         printApplicationInfo(context);
     }
 
@@ -63,15 +59,14 @@ public class ServerBStartup {
                          Active Profile   : {}
                          Context Path     : {}
                          Access URL       : {}
-                         API Doc          : {}/doc.html
                         ------------------------------------------------------------
                         """,
                 appName,
                 version,
                 profile.isBlank() ? "default" : profile,
                 contextPath.isBlank() ? "/" : contextPath,
-                baseUrl,
                 baseUrl
         );
     }
+
 }

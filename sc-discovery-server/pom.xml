@@ -2,28 +2,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.nutcracker</groupId>
         <artifactId>sc</artifactId>
         <version>2022.4.20-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sc-server-b</artifactId>
+    <artifactId>sc-discovery-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>${project.artifactId}</name>
-    <description>微服务示例工程，openfeign</description>
+    <name>sc-discovery-server</name>
+    <description>服务注册中心</description>
 
     <dependencies>
-        <!-- domain -->
+        <!--suppress VulnerableLibrariesLocal -->
         <dependency>
-            <groupId>com.nutcracker</groupId>
-            <artifactId>sc-domain</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
-        <!-- Web依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -34,42 +33,26 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!--suppress VulnerableLibrariesLocal -->
+        <!-- 可选：日志和其他常用依赖 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
 
-        <!-- Config Client -->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-config-client</artifactId>-->
-        <!--</dependency>-->
-
-        <!-- TTL logging -->
-        <dependency>
-            <groupId>com.nutcracker</groupId>
-            <artifactId>sc-ttl-logging</artifactId>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!--suppress VulnerableLibrariesLocal -->
         <dependency>
             <groupId>com.ctrip.framework.apollo</groupId>
             <artifactId>apollo-client</artifactId>
         </dependency>
 
-        <!-- test -->
+        <!--<dependency>-->
+        <!--    <groupId>com.alibaba.nacos</groupId>-->
+        <!--    <artifactId>nacos-client</artifactId>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -91,5 +74,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
