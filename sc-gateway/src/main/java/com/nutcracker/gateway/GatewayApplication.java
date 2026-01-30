@@ -1,6 +1,5 @@
 package com.nutcracker.gateway;
 
-import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,7 +17,7 @@ import java.net.InetAddress;
  * @date 2022/6/2 08:50
  */
 @Slf4j
-@EnableApolloConfig
+//@EnableApolloConfig
 @EnableDiscoveryClient
 @SpringBootApplication
 public class GatewayApplication {

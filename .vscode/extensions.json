@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "vscjava.vscode-java-pack", // Java Extension Pack
+        "pleiades.java-extension-pack-jdk",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-spring-boot",
+        "vscjava.vscode-spring-boot-dashboard",
+        "vscjava.vscode-spring-initializr",
+        "github.vscode-pull-request-github",
+        "eamodio.gitlens",
+        "vscode-icons-team.vscode-icons",
+        "editorconfig.editorconfig",
+        "greenplumwine.mybatis-helper"
+    ]
+}

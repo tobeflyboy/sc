@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!-- 从Spring环境变量读取配置 -->
+    <springProperty scope="context" name="LOG_DIR" source="logging.log-dir" defaultValue="./logs" />
+    <springProperty scope="context" name="MAX_HISTORY" source="logging.max-history" defaultValue="7" />
+    <springProperty scope="context" name="LOGSTASH_ADDRESS" source="logging.logstash-address"
+        defaultValue="10.28.19.168:5042" />
+    <springProperty scope="context" name="APP" source="spring.application.name" defaultValue="sc" />
+    <springProperty scope="context" name="ENV" source="spring.profiles.active" defaultValue="dev" />
+    <property name="PATTERN_COLOR"
+        value="${APP}-${ENV} %d{yyyy/MM/dd HH:mm:ss.SSS} %highlight([%-5level]) %magenta([%thread]) %cyan([%c{36}.%M\(\) [%X{traceId:-NONE}] - %line]) - %msg%n" />
+    <property name="PATTERN_PLAIN"
+        value="%d{yyyy/MM/dd HH:mm:ss.SSS} [%-5level] [%thread] [%c{36}.%M\(\) : %line] [%X{traceId:-NONE}] - %msg%n" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${PATTERN_COLOR}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CATALINA_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${APP}-catalina.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 保留近x天日志 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN_PLAIN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- Logstash日志输出配置，用于将日志发送到Logstash -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${LOGSTASH_ADDRESS}</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>
+                {
+                "app":"${APP}",
+                "env":"${ENV}",
+                "hostname":"${HOSTNAME}"
+                }
+            </customFields>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- set print log level  -->
+    <logger name="com.nutcracker" level="DEBUG" />
+    <logger name="com.nutcracker.ttl.logging.servlet.ServletRequestResponseLogFilter" level="INFO" />
+
+    <!-- print security -->
+    <logger name="org.springframework.security" level="DEBUG" />
+
+    <logger name="org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator" level="INFO" />
+    <logger name="org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping"
+        level="INFO" />
+
+    <!-- print transaction -->
+    <logger name="org.mybatis.spring.SqlSessionUtils" level="DEBUG" />
+    <logger name="org.springframework.transaction.interceptor.TransactionInterceptor" level="TRACE" />
+    <logger name="org.springframework.jdbc.support.JdbcTransactionManager" level="DEBUG" />
+
+    <!-- print request url & parameter -->
+    <logger name="org.springframework.web.method.support.InvocableHandlerMethod" level="DEBUG" />
+    <logger name="org.springframework.boot.SpringApplication" level="TRACE" />
+
+    <!-- print cache -->
+    <logger name="org.springframework.cache" level="TRACE" />
+    <logger name="org.springframework.data.redis" level="DEBUG" />
+
+    <!-- print sql log , but for development debug -->
+    <logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG" />
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />
+    <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE" />
+    <logger name="org.apache.ibatis.jdbc.ScriptRunner" level="DEBUG" />
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.Statement" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+
+    <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+        <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+        <neverBlock>true</neverBlock>
+        <!-- 新增这行为了打印栈堆信息 -->
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC_CATALINA_LOG" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CATALINA_LOG" />
+        <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+        <neverBlock>true</neverBlock>
+        <!-- 新增这行为了打印栈堆信息 -->
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    <!-- 异步Logstash日志输出配置 -->
+    <appender name="ASYNC_LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="LOGSTASH" />
+        <neverBlock>true</neverBlock>
+        <includeCallerData>true</includeCallerData>
+    </appender>
+    <root level="WARN">
+        <appender-ref ref="ASYNC_STDOUT" />
+        <appender-ref ref="ASYNC_CATALINA_LOG" />
+        <appender-ref ref="ASYNC_LOGSTASH" />
+    </root>
+</configuration>

@@ -28,7 +28,7 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+# .vscode/
 
 ## Eclipse Core
 .project

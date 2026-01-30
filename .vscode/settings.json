@@ -1,0 +1,107 @@
+{
+    // ============================================================
+    // 1. 编辑器核心行为 (彻底关闭所有自动格式化)
+    // ============================================================
+    "editor.formatOnSave": false, // 禁用保存时自动格式化
+    "editor.formatOnType": false, // 禁用键入时自动格式化
+    "editor.formatOnPaste": false, // 禁用粘贴时自动格式化
+    "editor.autoIndent": "brackets", // 仅保留基础括号对齐，防止查找替换时大幅度缩进抖动
+    "editor.detectIndentation": false, // 禁用自动检测缩进，强制使用本项目定义的 tabSize
+    "editor.tabSize": 4, // 缩进空格数
+    "editor.insertSpaces": true, // 使用空格代替 Tab
+    "files.encoding": "utf8", // 文件编码统一 UTF-8
+    "files.eol": "\n", // 换行符统一 Linux 风格
+    // ============================================================
+    // 2. Java 专项配置 (手动格式化 + 自动导包)
+    // ============================================================
+    "java.format.settings.url": ".vscode/java-formatter.xml", // 指向格式化配置文件
+    "java.format.settings.profile": "IDEA-Default", // 使用指定的 Profile
+    "java.autobuild.enabled": true, // 开启自动构建
+    "java.configuration.updateBuildConfiguration": "automatic", // 自动同步 Maven 变更
+    "java.compile.nullAnalysis.mode": "automatic", // 开启空指针分析
+    // 虽关闭了格式化，但保留“自动导包”这个高频刚需功能
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    // 静态补全支持 (输入方法名即可自动导入并补全)
+    "java.completion.favoriteStaticMembers": [
+        "java.util.Objects.*",
+        "org.junit.Assert.*",
+        "org.junit.jupiter.api.Assertions.*",
+        "org.mockito.Mockito.*"
+    ],
+    // 针对 Java 语言显式关闭自动行为
+    "[java]": {
+        "editor.formatOnSave": false
+    },
+    // ============================================================
+    // 3. XML 与 MyBatis 深度定制 (保护 SQL 逻辑)
+    // ============================================================
+    "xml.format.enabled": true, // 必须开启，否则无法手动触发格式化
+    "xml.format.maxLineWidth": 999, // 防止长 SQL 被强制折行
+    "xml.format.splitAttributes": false, // 禁止属性强制换行
+    "xml.format.wrapAttributes": "preserve", // 保持属性原有的换行布局
+    "xml.format.joinCDATALines": true, // 保持 CDATA 内部不换行
+    "xml.format.spaceBeforeEmptyCloseTag": true,
+    // 即使手动触发格式化，也会跳过以下标签内容，双重保护 SQL
+    "xml.format.contentUnformatted": [
+        "mapper",
+        "select",
+        "insert",
+        "update",
+        "delete",
+        "sql",
+        "script"
+    ],
+    // 针对 XML 语言显式关闭自动行为
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml",
+        "editor.formatOnSave": false
+    },
+    // 彻底关闭标签联动，防止大规模查找替换时触发非预期的标签变更
+    "xml.editor.autoClosingTags": false, // 禁用自动闭合标签
+    "editor.linkedEditing": false, // 禁用同步编辑关联标签
+    // ============================================================
+    // 4. 构建、调试与终端设置
+    // ============================================================
+    "maven.view": "hierarchical", // Maven 视图层级化显示
+    // 指定 Maven 本地安装路径 (建议手动指定，避免环境混乱)
+    "maven.executable.path": "mvn", // 如果已配环境变量填 mvn，否则填全路径("D:\\apache-maven-3.6.3\\bin\\mvn")
+    // 全局默认参数：-U 强制下载最新 Snapshot, -DskipTests 跳过测试加速打包
+    // "maven.executable.options": "-U",
+    // 4. 常用快捷指令
+    "maven.terminal.favorites": [
+        {
+            "alias": "快速打包(强制刷新)",
+            "command": "clean install -U",
+            "debug": false
+        },
+        {
+            "alias": "调试模式打包",
+            "command": "clean install -U -X",
+            "debug": false
+        }
+    ],
+    "debug.console.wordWrap": false, // 调试日志不自动换行
+    "debug.toolBarLocation": "floating",//调试工具栏会以一个半透明悬浮条的形式出现在编辑器顶部的正中间
+    "debug.internalConsoleOptions": "neverOpen", //启动调试时不强行跳转到调试控制台，保持在当前终端窗口
+    "debug.openDebug": "neverOpen", // 启动调试时不自动打开调试面板
+    "debug.showInStatusBar": "always", // 在底部状态栏显示调试状态
+    "debug.onTaskErrors": "showErrors", // 只有报错时才强行提醒
+    "terminal.integrated.scrollback": 100000, // 增加终端滚动缓冲区
+    // ============================================================
+    // 5. 其他工具辅助 (拼写检查词库)
+    // ============================================================
+    "cSpell.words": [
+        "centaline",
+        "logback",
+        "Joran",
+        "aplus",
+        "biz",
+        "dto",
+        "nacos",
+        "mybatis",
+        "baomidou",
+        "mapstruct"
+    ]
+}

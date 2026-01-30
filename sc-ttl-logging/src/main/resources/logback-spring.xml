@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 最小化的logback配置文件，仅作为从Nacos加载完整日志配置的入口点 -->
+<configuration>
+    <!-- 此配置将由NacosLogbackConfigurator从Nacos配置中心加载的完整配置替换 -->
+    <!-- 保留基本的控制台输出，确保在Nacos配置加载失败时仍能看到日志 -->
+   
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} %highlight([%-5level]) %magenta([%thread]) %cyan([%c{36}.%M\(\) [%X{traceId:-NONE}] - %line]) - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

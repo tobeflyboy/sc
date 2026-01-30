@@ -9,7 +9,7 @@ spring:
     gateway.server.webflux:
       default-filters:
         - PrefixPath=/ # 前缀路径过滤器 ，为所有请求路径添加 / 前缀（这里相当于保持原路径）
-        - AddResponseHeader=X-Response-Default-Foo, Default-Bar # 在响应头里增加默认字段 X-Response-Default-Foo: Default-Bar，可以用于调试或标识请求来源。
+        - AddResponseHeader=X-Gateway-Processed, true # 在响应头里增加默认字段 X-Gateway-Processed: true，可以用于调试或标识请求来源。
       discovery:
         locator:
           enabled: true  # 启用服务发现路由

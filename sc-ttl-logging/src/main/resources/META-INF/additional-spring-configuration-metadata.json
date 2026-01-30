@@ -1,0 +1,54 @@
+{
+    "properties": [
+        {
+            "name": "logging.nacos.group",
+            "type": "java.lang.String",
+            "description": "A description for 'logging.nacos.group'"
+        },
+        {
+            "name": "logging.nacos.data-id",
+            "type": "java.lang.String",
+            "description": "A description for 'logging.nacos.data-id'"
+        },
+        {
+            "name": "logging.nacos.namespace",
+            "type": "java.lang.String",
+            "description": "A description for 'logging.nacos.namespace'"
+        },
+        {
+            "name": "logging.save.path",
+            "type": "java.lang.String",
+            "description": "A description for 'logging.save.path'"
+        },
+        {
+            "name": "logging.save.max-history",
+            "type": "java.lang.Integer",
+            "description": "A description for 'logging.save.max-history'"
+        },
+        {
+            "name": "NACOS_PASSWORD",
+            "type": "java.lang.String",
+            "description": "A description for 'NACOS_PASSWORD'"
+        },
+        {
+            "name": "NACOS_USERNAME",
+            "type": "java.lang.String",
+            "description": "A description for 'NACOS_USERNAME'"
+        },
+        {
+            "name": "NACOS_NAMESPACE",
+            "type": "java.lang.String",
+            "description": "A description for 'NACOS_NAMESPACE'"
+        },
+        {
+            "name": "NACOS_SERVER_ADDR",
+            "type": "java.lang.String",
+            "description": "A description for 'NACOS_SERVER_ADDR'"
+        },
+        {
+            "name": "NACOS_GROUP",
+            "type": "java.lang.String",
+            "description": "A description for 'NACOS_GROUP'"
+        }
+    ]
+}

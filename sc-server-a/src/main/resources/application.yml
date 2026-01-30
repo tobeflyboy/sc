@@ -1,12 +1,48 @@
-app:
-  # Apollo 中的 AppId
-  id: sc-server-a
+# 应用配置文件
+spring:
+  # 应用基本信息
+  application:
+    name: sc-server-a # 应用名称，用于服务注册和发现
+  # 环境配置
+  profiles:
+    active: ${ENV:dev} # 当前激活的环境，对应Nacos中的配置文件
+  # 云服务配置
+  cloud:
+    # Nacos配置
+    nacos:
+      # Nacos公共参数
+      server-addr: ${NACOS_SERVER_ADDR:centaline-nacos-test.centaline.com.cn:8848} # Nacos服务器地址
+      username: ${NACOS_USERNAME:nacos} # Nacos登录用户名
+      password: ${NACOS_PASSWORD:nacos} # Nacos登录密码
+      # 服务发现配置
+      discovery:
+        namespace: ${NACOS_NAMESPACE:dev-namespace} # 配置命名空间
+        group: ${NACOS_GROUP:nutcracker} # 配置分组
+        # 连接超时和重试配置
+        timeout: 60000 # 连接超时时间（毫秒）
+        heart-beat-interval: 5000 # 心跳间隔（毫秒）
+        heart-beat-timeout: 15000 # 心跳超时时间（毫秒）
+        ip-delete-timeout: 30000 # IP删除超时时间（毫秒）
+        naming-load-cache-at-start: true # 启动时加载缓存
+        fail-fast: false # 连接失败时不快速失败
+        registry-fail-retry-count: 5 # 注册失败重试次数
+        # 服务注册优化
+        register-enabled: true # 启用服务注册
+        weight: 1 # 服务权重
+        ephemeral: true # 临时实例
+        register-delay: 0 # 注册延迟(毫秒)
+      # 配置中心配置
+      config:
+        namespace: ${NACOS_NAMESPACE:dev-namespace} # 配置命名空间
+        group: ${NACOS_GROUP:nutcracker} # 配置分组
+        # 关键配置：关闭启动时的配置导入检查
+        # 防止在加载import配置之前就报错
+        import-check:
+          enabled: false
 
-apollo:
-  # Meta Server 地址
-  meta: http://10.28.21.213:8881
-  bootstrap:
-    # 启用启动期加载
-    enabled: true
-    # 需要加载的命名空间
-    namespaces: application.yml
+  # 核心配置：配置导入
+  # 注意：此配置必须与cloud节点平级
+  config:
+    import:
+      # 从Nacos导入配置文件，指定配置ID、分组和自动刷新
+      - optional:nacos:sc-server-a.application.yaml?group=${NACOS_GROUP:nutcracker}&refresh=true

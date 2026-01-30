@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.nutcracker</groupId>
@@ -17,33 +16,33 @@
     <description>通用日志和TTL传递组件</description>
 
     <dependencies>
-        <!-- TTL -->
+        <!-- TTL：线程上下文传递工具，保证MDC等在异步线程中正确传递 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
 
-        <!-- Spring Boot 自动配置 -->
+        <!-- Spring Boot自动配置基础库：支持条件化装配、自动装配等 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
-        <!-- Servlet API（编译期可选） -->
+        <!-- Servlet API（编译期可选）：适配传统 Servlet Filter 场景 -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- WebFlux / Gateway（可选） -->
+        <!-- Spring Cloud Gateway（可选）：适配 WebFlux / Gateway 场景的日志与TTL -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- SLF4J API -->
+        <!-- SLF4J日志接口：统一日志门面 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -54,6 +53,27 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Nacos配置中心客户端：从Nacos拉取并监听logback-spring.xml -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Logback经典实现：解析并应用logback配置 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Spring Boot配置处理器：生成配置元数据，IDE中提供application.yml提示 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

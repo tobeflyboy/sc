@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
 
     <property name="LOG_DIR" value="${LOG_PATH:-./logs}"/>
     <property name="MAX_HISTORY" value="7"/>
-    <property name="PATTERN_SCRIPT" value="%date{yyyy/MM/dd HH:mm:ss.SSS} [%-5level] [%thread] [%c{36}.%M\(\) : %line] - %msg%n"/>
     <!-- LOGSTASH_ADDRESS: Logstash的地址和端口，用于日志收集，kibana地址：http://10.28.21.213:5601 -->
     <property name="LOGSTASH_ADDRESS" value="10.28.21.213:4567"/>
     <!-- 根据ENV属性设置应用名称 -->
     <property name="APP" value="sc-config-server"/>
     <!-- 环境 -->
     <property name="ENV" value="${spring.profiles.active:-dev}"/>
+    <property name="PATTERN_COLOR" value="${APP}-${ENV} %d{yyyy/MM/dd HH:mm:ss.SSS} %highlight([%-5level]) %magenta([%thread]) %cyan([%c{36}.%M\(\) : %line]) - %msg%n"/>
+    <property name="PATTERN_PLAIN" value="%d{yyyy/MM/dd HH:mm:ss.SSS} [%-5level] [%thread] [%c{36}.%M\(\) : %line] - %msg%n"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${PATTERN_SCRIPT}</pattern>
             <charset>UTF-8</charset>
+            <pattern>${PATTERN_COLOR}</pattern>
         </encoder>
     </appender>
 
@@ -26,7 +27,7 @@
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder>
-            <pattern>${PATTERN_SCRIPT}</pattern>
+            <pattern>${PATTERN_PLAIN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -50,9 +51,14 @@
 
     <!-- set print log level  -->
     <logger name="com.nutcracker" level="DEBUG"/>
+    <logger name="com.ctrip.framework" level="DEBUG"/>
+    <!--<logger name="com.ctrip.framework.apollo.util.yaml.YamlParser" level="INFO"/>-->
 
     <!-- print security -->
     <logger name="org.springframework.security" level="DEBUG"/>
+
+    <logger name="org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator" level="DEBUG"/>
+    <logger name="org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping" level="DEBUG"/>
 
     <!-- print transaction -->
     <logger name="org.mybatis.spring.SqlSessionUtils" level="DEBUG"/>

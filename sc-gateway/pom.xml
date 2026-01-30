@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.nutcracker</groupId>
@@ -16,49 +17,75 @@
     <description>API网关服务</description>
 
     <dependencies>
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.boot</groupId>-->
-        <!--    <artifactId>spring-boot-starter-actuator</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.boot</groupId>-->
-        <!--    <artifactId>spring-boot-starter-webflux</artifactId>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
-        </dependency>
-
-        <!-- Eureka Client -->
-        <!--suppress VulnerableLibrariesLocal -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <!-- Config Client -->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-config-client</artifactId>-->
-        <!--</dependency>-->
-
-        <!-- TTL logging -->
+        <!-- 自定义TTL日志模块 -->
+        <!-- 提供线程本地变量(ThreadLocal)传递的日志功能，确保日志链路追踪 -->
         <dependency>
             <groupId>com.nutcracker</groupId>
             <artifactId>sc-ttl-logging</artifactId>
         </dependency>
 
-        <!-- Lombok -->
+        <!-- Spring Cloud Gateway 网关核心依赖 -->
+        <!-- 基于WebFlux实现的API网关，提供路由、负载均衡、熔断等功能 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
+        </dependency>
+
+        <!-- Nacos 服务发现客户端 -->
+        <!-- 实现服务注册与发现功能，使服务可以在Nacos中注册和查找其他服务 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- Nacos 配置中心客户端 -->
+        <!-- 实现从Nacos配置中心动态获取和刷新配置 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud LoadBalancer 负载均衡模块 -->
+        <!-- 提供客户端负载均衡功能，支持多种负载均衡策略 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <!-- Caffeine 高性能缓存库 -->
+        <!-- 提供快速的内存缓存功能，用于缓存热点数据，提高系统性能 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Actuator 监控模块 -->
+        <!-- 提供健康检查、指标收集、信息展示等功能 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Logstash日志编码器 -->
+        <!-- 用于将日志格式化为JSON格式并发送到Logstash -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+
+        <!-- Lombok 代码简化工具 -->
+        <!-- 自动生成getter、setter、构造函数等代码，减少样板代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- 编译时依赖，运行时不需要 -->
         </dependency>
 
-        <!--suppress VulnerableLibrariesLocal -->
+        <!-- 测试依赖：提供 Spring Boot 的单元测试与集成测试支持 -->
         <dependency>
-            <groupId>com.ctrip.framework.apollo</groupId>
-            <artifactId>apollo-client</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

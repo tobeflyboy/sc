@@ -20,7 +20,7 @@ public class ProviderException extends RuntimeException {
     }
 
     public ProviderException(String message) {
-        this.errorCode = errorCode;
+        this.errorCode = message;
     }
 
     public ProviderException(String errorCode, String message) {

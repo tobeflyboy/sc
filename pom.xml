@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- 父工程只负责聚合和统一版本，不参与编译 -->
+    <!-- 项目基本信息 -->
+    <!-- 父工程只负责聚合和统一版本管理，不参与实际编译 -->
     <groupId>com.nutcracker</groupId>
     <artifactId>sc</artifactId>
     <version>2022.4.20-SNAPSHOT</version>
-    <!-- 父工程必须是 pom -->
+    <!-- 父工程必须设置为 pom 类型 -->
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
     <description>微服务示例工程</description>
 
-    <!-- 子模块统一继承 -->
+    <!-- 子模块统一继承配置 -->
+    <!-- 所有子模块都会继承此父工程的配置 -->
     <modules>
-        <module>sc-config-server</module>
-        <module>sc-discovery-server</module>
-        <module>sc-gateway</module>
-        <module>sc-server-a</module>
-        <module>sc-server-b</module>
-        <module>sc-domain</module>
-        <module>sc-ttl-logging</module>
+        <module>sc-config-server</module>     <!-- 配置中心服务 -->
+        <module>sc-discovery-server</module>  <!-- 服务发现注册中心 -->
+        <module>sc-gateway</module>           <!-- API网关服务 -->
+        <module>sc-server-a</module>          <!-- 示例服务A -->
+        <module>sc-server-b</module>          <!-- 示例服务B -->
+        <module>sc-domain</module>            <!-- 领域模型模块 -->
+        <module>sc-ttl-logging</module>       <!-- 线程本地变量日志模块 -->
     </modules>
 
+    <!-- 许可证信息 -->
+    <!-- 声明项目使用的开源许可证 -->
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -32,20 +36,22 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <inceptionYear>2022</inceptionYear>
 
+    <!-- 版本控制信息 -->
+    <!-- 配置项目的版本控制系统信息 -->
     <scm>
-        <!-- SCM的URL,该URL描述了版本库和如何连接到版本库。欲知详情，请看SCMs提供的URL格式和列表。该连接只读。 -->
+        <!-- 版本库连接URL（只读） -->
         <connection>scm:git:git@github.com:infowangxin/sc</connection>
-        <!-- 给开发者使用的，类似connection元素。即该连接不仅仅只读 -->
+        <!-- 开发者使用的版本库连接URL（可读写） -->
         <developerConnection>scm:git:git@github.com:infowangxin/sc</developerConnection>
-        <!-- 指向项目的可浏览SCM库（例如ViewVC或者Fisheye）的URL。 -->
+        <!-- 项目的可浏览版本库URL -->
         <url>https://github.com/infowangxin/sc</url>
-        <!-- 当前代码的标签，在开发阶段默认为HEAD -->
-        <tag/>
+        <!-- 当前代码的标签，开发阶段默认为HEAD -->
+        <tag />
     </scm>
 
-    <!-- 描述项目所属组织的各种属性。Maven产生的文档用 -->
+    <!-- 组织信息 -->
+    <!-- 描述项目所属组织的各种属性，用于Maven生成的文档 -->
     <organization>
         <!-- 组织的全名 -->
         <name>胡桃夹子</name>
@@ -53,6 +59,8 @@
         <url>https://github.com/infowangxin</url>
     </organization>
 
+    <!-- 开发者信息 -->
+    <!-- 列出参与项目开发的开发者 -->
     <developers>
         <developer>
             <name>胡桃夹子</name>
@@ -60,32 +68,90 @@
         </developer>
     </developers>
 
-    <!-- 项目的问题管理系统（Bugzilla，Jira，Scarab，或任何你喜欢的问题管理系统）的名称或URL，本例为Jira -->
+    <!-- 问题管理系统信息 -->
+    <!-- 配置项目的问题管理系统（如Bugzilla、Jira等） -->
     <issueManagement>
-        <!-- 问题管理系统（例如Jira）的名字 -->
+        <!-- 问题管理系统的名称 -->
         <system>github</system>
-        <!-- 该项目使用的问题管理系统的URL -->
+        <!-- 项目使用的问题管理系统的URL -->
         <url>https://github.com/infowangxin/sc/issues</url>
     </issueManagement>
 
-    <!-- 项目的属性配置，及版本定义 -->
+    <!-- 项目属性配置 -->
+    <!-- 定义项目的全局属性和版本号 -->
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <java.version>21</java.version>
+        <!-- Java版本配置 -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <java.version>17</java.version>
+
+        <!-- 编码配置 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.test.skip>true</maven.test.skip>
-        <skipTests>true</skipTests>
 
-        <!-- springboot & spring-cloud -->
-        <spring-boot.version>4.0.1</spring-boot.version>
-        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <!-- 测试配置 -->
+        <maven.test.skip>true</maven.test.skip>  <!-- 跳过Maven测试 -->
+        <skipTests>true</skipTests>              <!-- 跳过测试编译和执行 -->
+
+        <!-- 依赖版本配置 -->
+        <spring-boot.version>3.5.9</spring-boot.version>
+        <spring-cloud.version>2025.0.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
     </properties>
 
-    <!-- 统一 jar 包版本管理 -->
+    <!--
+    设置仓库的方式有两种，一种是在项目最顶级pom.xml中设置，另一种是在settings.xml中设置。
+    寻找jar的基本优先级顺序：
+    本地仓库 > settings.xml的profile的仓库 > pom.xml的profile的仓库 > pom.xml的仓库 > 中央仓库
+    -->
+    <!-- repository 表示下载项目依赖库文件的maven仓库地址 -->
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    <!-- pluginRepositories 表示插件的下载仓库地址，字段和用法与repositories中的repository基本一致 -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!-- 依赖版本管理 -->
+    <!-- 统一管理项目中所有依赖的版本，子模块可以直接引用而无需指定版本 -->
     <dependencyManagement>
         <dependencies>
+            <!-- 自定义模块依赖 -->
+            <dependency>
+                <groupId>com.nutcracker</groupId>
+                <artifactId>sc-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nutcracker</groupId>
+                <artifactId>sc-ttl-logging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Spring Boot依赖管理 -->
+            <!-- 导入Spring Boot的依赖版本管理 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -94,6 +160,8 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Spring Cloud依赖管理 -->
+            <!-- 导入Spring Cloud的依赖版本管理 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -102,86 +170,107 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Spring Cloud Alibaba依赖管理 -->
+            <!-- 导入Spring Cloud Alibaba的依赖版本管理 -->
             <dependency>
-                <groupId>com.nutcracker</groupId>
-                <artifactId>sc-domain</artifactId>
-                <version>${project.version}</version>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
+            <!-- 日志相关依赖 -->
+            <!-- Logback核心依赖 -->
             <dependency>
-                <groupId>com.nutcracker</groupId>
-                <artifactId>sc-ttl-logging</artifactId>
-                <version>${project.version}</version>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.5.24</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.5.24</version>
             </dependency>
 
-            <!-- apache common support -->
+            <!-- Apache Commons工具库 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>4.4</version>
             </dependency>
 
-            <!-- TTL -->
+            <!-- 线程本地变量传递库 -->
+            <!-- 用于在多线程环境中传递上下文信息 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>2.8.1</version>
             </dependency>
 
-            <!-- apollo client -->
+            <!-- Apollo配置中心客户端 -->
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
                 <version>2.4.0</version>
             </dependency>
 
+            <!-- Nacos客户端 -->
+            <!-- 用于服务发现和配置管理 -->
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>3.1.1</version>
             </dependency>
+
+            <!-- Logstash日志编码器 -->
+            <!-- 用于将日志格式化为JSON格式并发送到Logstash -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>9.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <!-- 统一插件管理区 -->
+    <!-- 构建配置 -->
+    <!-- 配置项目的构建过程和插件 -->
     <build>
+        <!-- 插件版本管理 -->
+        <!-- 统一管理项目中使用的Maven插件版本 -->
         <pluginManagement>
             <plugins>
-                <!--
-                    Spring Boot 官方 Maven 插件
-                    主要作用：
-                      1. 将普通 jar 重新打包为“可直接运行”的 Spring Boot 可执行 jar
-                      2. 在构建时生成应用构建信息（如版本号、构建时间、Git 信息等）
+                <!-- Spring Boot Maven插件 -->
+                <!-- 主要作用：
+                     1. 将普通jar重新打包为可直接运行的Spring Boot可执行jar
+                     2. 在构建时生成应用构建信息（如版本号、构建时间、Git信息等）
                 -->
                 <plugin>
-                    <!-- Spring Boot 官方插件坐标 -->
+                    <!-- Spring Boot官方插件坐标 -->
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <!-- 插件版本，通常与 Spring Boot 版本保持一致 -->
+                    <!-- 插件版本，通常与Spring Boot版本保持一致 -->
                     <version>${spring-boot.version}</version>
-                    <!-- 插件执行配置：定义在 Maven 构建生命周期的哪个阶段执行哪些目标 -->
+                    <!-- 插件执行配置：定义在Maven构建生命周期的哪个阶段执行哪些目标 -->
                     <executions>
-                        <!--
-                            repackage 目标：
-                            - 默认绑定在 package 阶段
-                            - 将 Maven 打出来的普通 jar
-                              转换为包含内置 Tomcat/Jetty 的可执行 Spring Boot jar
-                            - 生成的 jar 可以通过：java -jar xxx.jar 直接运行
+                        <!-- repackage目标：
+                             - 默认绑定在package阶段
+                             - 将Maven打出来的普通jar转换为包含内置Tomcat/Jetty的可执行Spring Boot jar
+                             - 生成的jar可以通过：java -jar xxx.jar 直接运行
                         -->
                         <execution>
                             <goals>
                                 <goal>repackage</goal>
                             </goals>
                         </execution>
-                        <!--
-                            build-info 目标：
-                            - 用于生成 META-INF/build-info.properties 文件
-                            - 该文件会被 Spring Boot 自动读取
-                            - 可通过 /actuator/info 或 BuildProperties 在代码中访问
-                            使用场景：
-                              - 查看应用版本
-                              - 查看构建时间
-                              - CI/CD 版本追踪
+                        <!-- build-info目标：
+                             - 用于生成META-INF/build-info.properties文件
+                             - 该文件会被Spring Boot自动读取
+                             - 可通过/actuator/info或BuildProperties在代码中访问
+                             使用场景：
+                               - 查看应用版本
+                               - 查看构建时间
+                               - CI/CD版本追踪
                         -->
                         <execution>
                             <id>build-info</id>
@@ -194,75 +283,69 @@
                     </executions>
                 </plugin>
 
-                <!--
-                    Maven 部署插件
-                    主要作用：
-                      - 控制是否将构建产物（jar / pom）上传到远程仓库（如 Nexus、私服）
+                <!-- Maven部署插件 -->
+                <!-- 主要作用：
+                     - 控制是否将构建产物（jar/pom）上传到远程仓库（如Nexus、私服）
                     当前配置说明：
-                      - skip = true 表示“完全跳过部署”
-                      - 适用于：
-                          * 本地开发
-                          * 测试环境
-                          * 非正式发布构建
-                      - 可防止误将测试包发布到正式仓库
+                     - skip = true 表示"完全跳过部署"
+                     - 适用于：
+                         * 本地开发
+                         * 测试环境
+                         * 非正式发布构建
+                     - 可防止误将测试包发布到正式仓库
                 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.1.4</version>
                     <configuration>
-                        <!-- 跳过 deploy 阶段，不上传构建产物到远程仓库 -->
+                        <!-- 跳过deploy阶段，不上传构建产物到远程仓库 -->
                         <skip>true</skip>
                     </configuration>
                 </plugin>
 
-                <!--
-                    Maven 编译插件
-                    主要作用：
-                      - 控制 Java 源码的编译行为
-                      - 统一 JDK 版本
-                      - 传递额外的 javac 编译参数
+                <!-- Maven编译插件 -->
+                <!-- 主要作用：
+                     - 控制Java源码的编译行为
+                     - 统一JDK版本
+                     - 传递额外的javac编译参数
                 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <!-- 支持 JDK 21 的稳定版本 -->
+                    <!-- 支持JDK 21的稳定版本 -->
                     <version>3.14.1</version>
                     <configuration>
-                        <!--
-                            使用 -release 统一指定 Java 版本（推荐方式，JDK 9+）
-                            等价于同时设置：
-                              - source：源码语法级别
-                              - target：生成的字节码版本
-                              - bootclasspath：对应 JDK 的标准库 API
-                            优点：
-                              - 防止误用高版本 JDK API
-                              - 避免运行时不兼容问题
+                        <!-- 使用-release统一指定Java版本（推荐方式，JDK 9+）
+                             等价于同时设置：
+                               - source：源码语法级别
+                               - target：生成的字节码版本
+                               - bootclasspath：对应JDK的标准库API
+                             优点：
+                               - 防止误用高版本JDK API
+                               - 避免运行时不兼容问题
                         -->
                         <release>${java.version}</release>
-                        <!--
-                            传递给 javac 的额外编译参数
-                            每一个 <arg> 都是一个独立的编译参数
+                        <!-- 传递给javac的额外编译参数
+                             每一个<arg>都是一个独立的编译参数
                         -->
                         <compilerArgs>
-                            <!--
-                                -parameters 参数：
-                                作用：在编译后的 .class 文件中保留方法参数的真实名称
-                                使用场景：
-                                  - Spring MVC 参数绑定
-                                  - AOP / 反射
-                                  - Jackson / MapStruct 等框架
-                                不加该参数时，参数名会变成 arg0 / arg1
+                            <!-- -parameters参数：
+                                 作用：在编译后的.class文件中保留方法参数的真实名称
+                                 使用场景：
+                                   - Spring MVC参数绑定
+                                   - AOP/反射
+                                   - Jackson/MapStruct等框架
+                                 不加该参数时，参数名会变成arg0/arg1
                             -->
                             <arg>-parameters</arg>
-                            <!--
-                                -Xlint:-options 参数：
-                                作用：关闭 javac 中与“编译选项”相关的警告
-                                常见警告示例：
-                                  warning: [options] bootstrap class path not set
-                                使用目的：
-                                  - 在使用 -release 后，此类警告无实际意义
-                                  - 保持构建日志干净，避免干扰真正的问题
+                            <!-- -Xlint:-options参数：
+                                 作用：关闭javac中与"编译选项"相关的警告
+                                 常见警告示例：
+                                   warning: [options] bootstrap class path not set
+                                 使用目的：
+                                   - 在使用-release后，此类警告无实际意义
+                                   - 保持构建日志干净，避免干扰真正的问题
                             -->
                             <arg>-Xlint:-options</arg>
                         </compilerArgs>

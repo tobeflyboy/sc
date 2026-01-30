@@ -1,0 +1,41 @@
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://code.visualstudio.com/docs/java/java-debugging
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "sc-gateway",
+      "projectName": "sc-gateway",
+      "request": "launch",
+      "mainClass": "com.nutcracker.gateway.GatewayApplication",
+      "vmArgs": [
+        "-Dfile.encoding=UTF-8"
+      ],
+      "console": "internalConsole"
+    },
+    {
+      "type": "java",
+      "name": "sc-server-a",
+      "projectName": "sc-server-a",
+      "request": "launch",
+      "mainClass": "com.nutcracker.server.ServerAStartup",
+      "vmArgs": [
+        "-Dfile.encoding=UTF-8"
+      ],
+      "console": "internalConsole"
+    },
+    {
+      "type": "java",
+      "name": "sc-server-b",
+      "projectName": "sc-server-b",
+      "request": "launch",
+      "mainClass": "com.nutcracker.server.ServerBStartup",
+      "vmArgs": [
+        "-Dfile.encoding=UTF-8"
+      ],
+      "console": "internalConsole"
+    }
+  ]
+}

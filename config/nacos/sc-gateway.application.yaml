@@ -1,0 +1,59 @@
+server:
+  port: 8080 # 服务端口
+# 应用配置文件
+spring:
+  # 应用基本信息
+  application:
+    name: sc-gateway # 应用名称，用于服务注册和发现
+  jmx:
+    enabled: false # 禁用JMX
+  # 云服务配置
+  cloud:
+    # Nacos配置
+    nacos:
+      # 配置中心配置
+      config:
+        watch:
+          delay: 1000 # 拉取服务列表的间隔，默认30s，改为1s
+      # 服务发现配置
+      discovery:
+        watch:
+          enabled: true # 启用服务变更监听
+          timeout: 1000 # 监听超时时间(毫秒)
+    loadbalancer:
+      cache:
+        ttl: 2s # 缩短负载均衡缓存时间，默认35s，改为2s
+        enabled: true
+    gateway:
+      # 路由刷新间隔配置
+      routes-refresh-interval: 1000 # 路由刷新间隔(毫秒)
+      server:
+        webflux:
+          default-filters:
+            - PrefixPath=/ # 前缀路径过滤器 ，为所有请求路径添加 / 前缀（这里相当于保持原路径）
+            - AddResponseHeader=X-Gateway-Processed, true # 在响应头里增加默认字段 X-Gateway-Processed: true，可以用于调试或标识请求来源。
+          discovery:
+            locator:
+              enabled: true # 启用服务发现路由
+              lower-case-service-id: true # 服务ID转小写
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh
+logging:
+  logback-name: logback-spring.xml
+  log-dir: ../logs
+  max-history: 7
+  logstash-address: 10.28.19.168:5042
+sc:
+  logging:
+    http:
+      enabled: true
+      maxLength: 2000
+      white-uris:
+        - /actuator/**
+        - /health/**
+        - /swagger/**
+        - /v3/api-docs/**
+        - /internal/**
