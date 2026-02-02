@@ -1,0 +1,72 @@
+## maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+## Eclipse Core
+.project
+.classpath
+.settings
+
+# External tool builders
+.externalToolBuilers/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific
+.buildpath
+
+# TeXlipse plugin
+.texlipse
+
+## Mac
+.DS_Store
+
+## SVN
+.svn
+catalina.base_IS_UNDEFINED
+
+## rebel
+rebel-remote.xml
+rebel.xml
+
+## log
+logs
+*.log
+
+## other
+dubbo-cache
+dubbo-cache.lock

@@ -1,15 +1,69 @@
 {
+    // =========================
+    // VS Code / Lingma IDE
+    // 推荐插件列表（团队级）
+    //
+    // 说明：
+    // - 新成员打开工程时会收到“推荐安装插件”提示
+    // - 这里只放【必须 / 强烈建议】插件
+    // - 不要放纯个人习惯类插件
+    // =========================
     "recommendations": [
-        "vscjava.vscode-java-pack", // Java Extension Pack
-        "pleiades.java-extension-pack-jdk",
-        "vscjava.vscode-maven",
-        "vscjava.vscode-spring-boot",
-        "vscjava.vscode-spring-boot-dashboard",
-        "vscjava.vscode-spring-initializr",
-        "github.vscode-pull-request-github",
+        // ===== 通用效率 / 代码质量 =====
+        // 英文拼写检查（变量名 / 注释）
+        "streetsidesoftware.code-spell-checker",
+        // 扫描TODO/FIXME/NOTE 注释并以树形结构展示
+        "gruntfuggly.todo-tree",
+        // 行内错误高亮显示（比 Problems 面板更直观）
+        "usernamehw.errorlens",
+
+        // ===== Git / 版本管理 =====
+        // Git 增强：行级 blame、提交历史、作者信息
         "eamodio.gitlens",
-        "vscode-icons-team.vscode-icons",
-        "editorconfig.editorconfig",
-        "greenplumwine.mybatis-helper"
+        // Git 历史可视化（文件 / 分支 / 提交）
+        "donjayamanne.githistory",
+
+        // ===== Java 基础能力（核心） =====
+        // Java 插件合集（语言服务 / 调试 / 测试 / Maven / Gradle 等）
+        "vscjava.vscode-java-pack",
+        // Java 语言服务器（语法、补全、重构、诊断核心）
+        // ⚠️ 已包含在 java-pack 中，但单独列出方便认知
+        "redhat.java",
+        // Java 调试支持（断点 / 变量 / 调用栈）
+        "vscjava.vscode-java-debug",
+        // JUnit / TestNG 测试运行与调试
+        "vscjava.vscode-java-test",
+        // Maven 项目支持（生命周期、依赖、目标执行）
+        "vscjava.vscode-maven",
+        // Java 项目依赖关系与类路径可视化
+        "vscjava.vscode-java-dependency",
+
+        // ===== Spring Boot =====
+        // Spring Boot 插件合集
+        "vmware.vscode-boot-dev-pack",
+        // Spring Boot 开发支持（配置提示、诊断、导航）
+        "vmware.vscode-spring-boot",
+        // Spring Boot 应用启动 / 管理面板
+        "vscjava.vscode-spring-boot-dashboard",
+        // Spring Initializr：创建 Spring Boot 项目
+        "vscjava.vscode-spring-initializr",
+
+        // ===== ORM / 数据访问 =====
+        // MyBatis / iBatis XML 辅助（跳转、补全、校验）
+        "yangbaopan.vscode-java-ibatisx",
+        // 依赖安全与许可证分析（CVE / License 风险提示）
+        "redhat.fabric8-analytics",
+
+        // ===== 前端（如工程包含前端模块） =====
+        // Vue 插件合集（基于 Volar，适配 Vue 3）
+        "misterj.vue-volar-extention-pack",
+        // HTML 中 class / id 对应 CSS 自动补全
+        "ecmel.vscode-html-css",
+        
+        // ===== 配置文件 =====
+        // YAML 支持（Spring / Kubernetes / CI 配置）
+        "redhat.vscode-yaml",
+        // XML 支持（校验 / 补全 / 格式化）
+        "redhat.vscode-xml"
     ]
 }

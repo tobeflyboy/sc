@@ -2,17 +2,25 @@
   // 使用 IntelliSense 了解相关属性。
   // 悬停以查看现有属性的描述。
   // 欲了解更多信息，请访问: https://code.visualstudio.com/docs/java/java-debugging
+  // VS Code 统一使用 "0.2.0"
   "version": "0.2.0",
   "configurations": [
     {
+      // 启动类型
       "type": "java",
+      // 启动入口显示的名称
       "name": "sc-gateway",
+      // 启动项目名
       "projectName": "sc-gateway",
+      // 启动方式
       "request": "launch",
+      // 启动时主类
       "mainClass": "com.nutcracker.gateway.GatewayApplication",
+      // 启动时JVM参数
       "vmArgs": [
         "-Dfile.encoding=UTF-8"
       ],
+      // 输出到VSCode的“调试控制台”(Debug Console)面板，对UTF-8支持最好，几乎不会乱码
       "console": "internalConsole"
     },
     {
