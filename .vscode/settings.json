@@ -1,19 +1,19 @@
 {
-  "java.format.settings.url": ".vscode/java-formatter.xml", // java格式化配置文件
-  "java.format.settings.profile": "IDEA-Default", // 使用指定的 Profile
-  // 指定 Maven 本地安装路径 (建议手动指定，避免环境混乱)
-  "maven.executable.path": "mvn", // 如果已配环境变量填 mvn，否则填全路径("D:\\apache-maven-3.6.3\\bin\\mvn")
-  // maven常用快捷指令
-  "maven.terminal.favorites": [
-    {
-      "alias": "快速打包(强制刷新)",
-      "command": "clean install -U",
-      "debug": false
-    },
-    {
-      "alias": "调试模式打包",
-      "command": "clean install -U -X",
-      "debug": false
-    }
-  ]
+    "java.format.settings.url": ".vscode/java-formatter.xml", // java格式化配置文件
+    "java.format.settings.profile": "IDEA-Default", // 使用指定的 Profile
+    // 指定 Maven 本地安装路径 (建议手动指定，避免环境混乱)
+    "maven.executable.path": "mvn", // 如果已配环境变量填 mvn，否则填全路径("D:\\apache-maven-3.6.3\\bin\\mvn")
+    // maven常用快捷指令
+    "maven.terminal.favorites": [
+        {
+            "alias": "快速打包(强制刷新)",
+            "command": "clean install -U",
+            "debug": false
+        },
+        {
+            "alias": "调试模式打包",
+            "command": "clean install -U -X",
+            "debug": false
+        }
+    ]
 }
