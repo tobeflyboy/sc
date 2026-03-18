@@ -32,7 +32,6 @@ public class GatewayAllRequestLogWebFilter implements WebFilter, Ordered {
 
     private final HttpLogProperties properties;
 
-    @SuppressWarnings("null")
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();

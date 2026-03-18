@@ -95,9 +95,9 @@
         <skipTests>true</skipTests>              <!-- 跳过测试编译和执行 -->
 
         <!-- 依赖版本配置 -->
-        <spring-boot.version>3.5.9</spring-boot.version>
-        <spring-cloud.version>2025.0.1</spring-cloud.version>
-        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
+        <spring-boot.version>4.0.3</spring-boot.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
     </properties>
 
     <!--
@@ -185,19 +185,19 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.5.24</version>
+                <version>1.5.32</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.5.24</version>
+                <version>1.5.32</version>
             </dependency>
 
             <!-- Apache Commons工具库 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
-                <version>4.4</version>
+                <version>4.5.0</version>
             </dependency>
 
             <!-- 线程本地变量传递库 -->
@@ -212,7 +212,7 @@
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
-                <version>2.4.0</version>
+                <version>2.5.0</version>
             </dependency>
 
             <!-- Nacos客户端 -->
@@ -314,7 +314,7 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <!-- 支持JDK 21的稳定版本 -->
-                    <version>3.14.1</version>
+                    <version>3.15.0</version>
                     <configuration>
                         <!-- 使用-release统一指定Java版本（推荐方式，JDK 9+）
                              等价于同时设置：

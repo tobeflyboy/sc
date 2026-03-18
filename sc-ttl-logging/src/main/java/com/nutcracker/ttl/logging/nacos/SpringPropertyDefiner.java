@@ -51,7 +51,6 @@ public class SpringPropertyDefiner extends PropertyDefinerBase {
         this.defaultValue = defaultValue;
     }
 
-    @SuppressWarnings("null")
     @Override
     public String getPropertyValue() {
         if (environment == null) {

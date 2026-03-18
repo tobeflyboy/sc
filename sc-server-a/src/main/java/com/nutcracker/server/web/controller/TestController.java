@@ -30,8 +30,9 @@ public class TestController {
     private final ServerAProperties serverAProperties;
 
     /**
-     * 获得学生分数 <a href="http://10.39.1.6:8080/server-a/student/score">
-     * <a href="http://10.39.1.6:8081/student/score">
+     * 获得学生分数 <br/>
+     * <a href="http://127.0.0.1:8080/sc-server-a/student/score">
+     * <a href="http://127.0.0.1:8081/student/score">
      *
      * @param student 学生
      * @return {@link ScoreDTO }
